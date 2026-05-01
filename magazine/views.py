@@ -138,9 +138,9 @@ def home(request):
 
 @login_required
 def profile(request, username):
-    user=get_object_or_404(User, username=username)
-    user_magazines=Magazine.objects.filter(author=request.user)
-    return render(request, 'home/profile.html',{'profile_user':user,'user_magazines':user_magazines})
+    profile_user=get_object_or_404(User, username=username)
+    user_magazines=Magazine.objects.filter(author=profile_user)
+    return render(request, 'home/profile.html',{'profile_user':profile_user,'user_magazines':user_magazines})
 
 @login_required
 def magazine_detail(request, slug):
