@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Magazines</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fafafa;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+         .search-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52,152,219,0.3);
+        }
+        
+        .search-btn {
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .search-btn:hover {
+            background: #2980b9;
+        }
+        
+        .clear-btn {
+            background: #95a5a6;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        
+        .clear-btn:hover {
+            background: #7f8c8d;
+        }
+        .messages-container {
+            margin-bottom: 20px;
+        }
+        
+        .alert {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        /* Two column layout */
+        .dashboard {
+            display: flex;
+            gap: 30px;
+        }
+        
+        /* Left column - Magazines */
+        .magazines-container {
+            flex: 2;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        /* Right column - User info */
+        .user-container {
+            flex: 1;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            text-transform: capitalize;
+        }
+        
+        .create-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            transition: background 0.3s;
+        }
+        
+        .create-link:hover {
+            background: #2980b9;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        li:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.1);
+            transform: translateX(5px);
+        }
+        
+        li a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-size: 1.1em;
+            display: block;
+            text-transform: capitalize;
+        }
+        
+        li a:hover {
+            color: #3498db;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px;
+        }
+        
+        .empty-message a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .empty-message a:hover {
+            text-decoration: underline;
+        }
+        
+        /* User container styles */
+        .user-info {
+            text-align: center;
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2em;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .user-name {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .user-email {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        
+        .logout-btn {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        .user-avatar {
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .user-avatar:hover {
+             transform: scale(1.05);
+            background: #2980b9;
+        }
+        .pagination {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .pagination-links {
+            display: inline-flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .page-link {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 2px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #3498db;
+            transition: all 0.3s;
+        }
+
+        .page-link:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .page-link.current {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .page-link.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .page-link.disabled:hover {
+            background-color: transparent;
+            color: #ccc;
+        }
+
+        .prev, .next {
+            font-weight: bold;
+        }
+        .search-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52,152,219,0.3);
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .magazines-container {
+                padding: 20px;
+            }
+            
+            .user-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            li {
+                padding: 10px;
+            }
+            .page-link {
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="messages-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="search-container">
+        <form method="get" action="{% url 'home' %}">
+            <div class="search-box">
+                {{form.query}}
+                <button type="submit" class="search-btn">🔍 Search</button>
+                {% if search_query %}
+                    <a href="{% url 'home' %}" class="clear-btn">Clear</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <div class="dashboard">
+        <!-- Left Column: Magazines -->
+        <div class="magazines-container">
+            <h1>All Magazines</h1>
+            <ul>
+                {% for magazine in magazines %}
+                    <li>
+                        <a href="{% url 'magazine_detail' magazine.slug %}">
+                            {{ magazine.title }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="empty-message">No magazines available.</li>
+                {% endfor %}
+                <a href="{% url 'create_magazine' %}" class="create-link">+ Create New Magazine</a>
+            </ul>
+            <!-- Pagination Section -->
+            {% if magazines.has_other_pages %}
+            <div class="pagination">
+                <div class="pagination-links">
+                    {% if magazines.has_previous %}
+                        <a href="?page={{ magazines.previous_page_number }}" class="page-link prev">&laquo; Previous</a>
+                    {% else %}
+                        <span class="page-link disabled">&laquo; Previous</span>
+                    {% endif %}
+
+                    {% for num in magazines.paginator.page_range %}
+                        {% if magazines.number == num %}
+                            <span class="page-link current">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if magazines.has_next %}
+                        <a href="?page={{ magazines.next_page_number }}" class="page-link next">Next &raquo;</a>
+                    {% else %}
+                        <span class="page-link disabled">Next &raquo;</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Right Column: User Info -->
+        <div class="user-container">
+            <div class="user-info">
+                <a href="{% url 'profile' username=request.user.username %}" style="text-decoration: none;">
+                    <div class="user-avatar">
+                        {{ user.username|first|upper }}
+                    </div>
+                </a>
+                <div class="user-name">
+                    {{ user.username|upper }}
+                </div>
+                <div class="user-email">
+                    {{ user.email|default:"No email provided" }}
+                </div>
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
