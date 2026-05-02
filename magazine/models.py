@@ -6,15 +6,15 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     # Predefined category choices
     class CategoryType(models.TextChoices):
-        TECHNOLOGY = 'tech', 'Technology'
-        LIFESTYLE = 'life', 'Lifestyle'
+        TECHNOLOGY = 'technology', 'Technology'
+        LIFESTYLE = 'lifestyle', 'Lifestyle'
         HEALTH = 'health', 'Health & Wellness'
         BUSINESS = 'business', 'Business'
-        EDUCATION = 'edu', 'Education'
+        EDUCATION = 'education', 'Education'
         TRAVEL = 'travel', 'Travel'
-        FOOD = 'food', 'Food & Cooking'
+        FOOD = 'food_cooking', 'Food & Cooking'
         SPORTS = 'sports', 'Sports'
-        ENTERTAINMENT = 'ent', 'Entertainment'
+        ENTERTAINMENT = 'entainment', 'Entertainment'
         OTHER = 'other', 'Other'
     
     name = models.CharField(
@@ -51,18 +51,18 @@ class Magazine(models.Model):
     created_at=models.DateField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
-            if not self.slug:
-                # Generate the initial slug
-                base_slug = slugify(self.title)
-                self.slug = base_slug
-                counter = 1
+        if not self.slug:
+            # Generate the initial slug
+            base_slug = slugify(self.title)
+            self.slug = base_slug
+            counter = 1
                 
-                # Check if slug exists and add number if needed
-                while Magazine.objects.filter(slug=self.slug).exists():
-                    self.slug = f"{base_slug}-{counter}"
-                    counter += 1
+            # Check if slug exists and add number if needed
+            while Magazine.objects.filter(slug=self.slug).exclude(id=self.id).exists():
+                self.slug = f"{base_slug}-{counter}"
+                counter += 1
 
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return self.title
